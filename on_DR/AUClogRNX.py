@@ -3,38 +3,34 @@
 # Multi-scale similarities in stochastic neighbour embedding: Reducing dimensionality while preserving both local and global structure. Neurocomputing, 169, 246-261.
 # This implementation has been written by Adrien Bibal (University of Namur).
 
-import math
-import pickle
 import numpy as np
 
 from scipy.spatial.distance import pdist, squareform
-from scipy.spatial import KDTree
 
-def QNX_K(dataset, projection, vK, nK):
-	acc = 0.0
-	N   = len(projection)
+def QNX_K(dataset, visu, vK, nK):
+	N   = len(visu)
 	K   = len(vK[0])
 
 	acc = sum(map(lambda vnK: np.intersect1d(vnK[0], vnK[1]).size, zip(vK, nK)))
 
 	return acc / (K*N)
 
-def RNX_K(dataset, projection, vK, nK):
-	N   = len(projection)
+def RNX_K(dataset, visu, vK, nK):
+	N   = len(visu)
 	K   = len(vK[0])
 
-	QNX = QNX_K(dataset, projection, vK, nK)
+	QNX = QNX_K(dataset, visu, vK, nK)
 
 	numerator   = ((N - 1)*QNX) - K
 	denominator = N - 1 - K
 
 	return numerator / denominator
 
-def logRNX(dataset, projection):
-	N   = len(projection)
+def logRNX(dataset, visu):
+	N   = len(visu)
 
 	D_dataset    = squareform(pdist(dataset))
-	D_projection = squareform(pdist(projection))
+	D_projection = squareform(pdist(visu))
 
 	numerator   = 0.0
 	denominator = 0.0
@@ -46,7 +42,7 @@ def logRNX(dataset, projection):
 		vK = I_projection[:, :k]
 		nK = I_dataset[:, :k]
 
-		numerator += (RNX_K(dataset, projection, vK, nK) / k)
+		numerator += (RNX_K(dataset, visu, vK, nK) / k)
 		denominator += (1.0 / k)
 
 	return numerator / denominator
@@ -57,6 +53,7 @@ def compute(data, visu):
 	------
 	data = high dimensional data
 	visu = low dimensional data
+
 	Output
 	------
 	return the log of the AUC of K neighborhoods for a growing K
