@@ -18,7 +18,7 @@ def compute_trustworthiness(dataset, visu, projection_K, dataset_K, I_dataset):
 		UK_i = np.delete(projection_K[i, :], common_neighborhood)
 
 		for j in UK_i:
-			acc += I_dataset[i, j] - K
+				acc += np.where(I_dataset[i, :] == j)[0][0] - K
 
 	return 1 - ((2/(N*K*((2*N)-(3*K)-1)))*acc)
 
@@ -28,12 +28,12 @@ def compute_continuity(dataset, visu, projection_K, dataset_K, I_projection):
 	K   = len(projection_K[0])
 
 	acc = 0
-	for i in range(0, N):
+	for i in range(0, N-1):
 		_, common_neighborhood, _ = np.intersect1d(dataset_K[i, :], projection_K[i, :], return_indices=True)
 		VK_i = np.delete(dataset_K[i, :], common_neighborhood)
 
 		for j in VK_i:
-			acc += I_projection[i, j] - K
+			acc += np.where(I_projection[i, :] == j)[0][0] - K
 
 	return 1 - ((2/(N*K*((2*N)-(3*K)-1)))*acc)
 
@@ -52,11 +52,13 @@ def compute(dataset, visu):
 	I_dataset = np.argsort(D_dataset, 1)[:, 1:]
 	I_projection = np.argsort(D_projection, 1)[:, 1:]
 
-	for i in range(1, N-1):
-		projection_K = I_projection[:, :i]
-		dataset_K = I_dataset[:, :i]
+	# In the paper, no explicit constraints are put on the size of the neighborhood.
+	# However, the two main equations restrict k < (2*N - 1)/3
+	for k in range(1, int(((2*N)-1)/3)):
+		projection_K = I_projection[:, :k]
+		dataset_K = I_dataset[:, :k]
 
-		# As suggested in Venna et al.'s paper, trustworthiness and continuity are combined with a simple mean
+		# Trustworthiness and continuity are combined with a simple mean
 		numerator += (compute_trustworthiness(dataset, visu, projection_K, dataset_K, I_dataset)+compute_continuity(dataset, visu, projection_K, dataset_K, I_projection))/2
 		denominator += (1.0 / k)
 

@@ -36,6 +36,6 @@ def compute(dataset, visu):
 		nK = I_dataset[:, :i]
 
 		numerator += interesect_neighborhoods(dataset, visu, vK, nK)
-		denominator += (1.0 / k)
+		denominator += (1.0 / i)
 
 	return numerator / denominator
