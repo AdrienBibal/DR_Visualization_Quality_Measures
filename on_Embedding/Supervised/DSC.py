@@ -27,6 +27,7 @@ def get_centroids(visu, labels):
 
 # Compute DSC
 # In order to be comparable amongs different visualizations, the result is divided by the number of points.
+# The higher the score, the worst is the visualization.
 def compute(visu, labels, centroids):
 	centroids = get_centroids(visu, labels)
 

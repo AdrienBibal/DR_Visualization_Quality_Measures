@@ -47,6 +47,7 @@ def logRNX(dataset, visu):
 
 	return numerator / denominator
 
+# The higher the score, the best is the visualization.
 def compute(data, visu):
 	""" Compute AUClogRNX
 	Inputs

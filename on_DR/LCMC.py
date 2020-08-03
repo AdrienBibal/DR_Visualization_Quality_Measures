@@ -8,7 +8,7 @@ import numpy as np
 from scipy.spatial.distance import pdist, squareform
 
 # This function computes LCMC for a particular K, as in Chen et al.'s paper
-def interesect_neighborhoods(dataset, visu, vK, nK):
+def intersect_neighborhoods(dataset, visu, vK, nK):
 	N   = len(visu)
 	K   = len(vK[0])
 
@@ -19,6 +19,7 @@ def interesect_neighborhoods(dataset, visu, vK, nK):
 # Compute LCMC for all K in logarithmic scale, as performed by AUClogRNX,
 # see Lee, J. A., Peluffo-Ordonez, D. H., & Verleysen, M. (2015). 
 # Multi-scale similarities in stochastic neighbour embedding: Reducing dimensionality while preserving both local and global structure. Neurocomputing, 169, 246-261.
+# The higher the score, the best is the visualization.
 def compute(dataset, visu):
 	N   = len(visu)
 
@@ -35,7 +36,7 @@ def compute(dataset, visu):
 		vK = I_projection[:, :i]
 		nK = I_dataset[:, :i]
 
-		numerator += interesect_neighborhoods(dataset, visu, vK, nK)
+		numerator += intersect_neighborhoods(dataset, visu, vK, nK)
 		denominator += (1.0 / i)
 
 	return numerator / denominator

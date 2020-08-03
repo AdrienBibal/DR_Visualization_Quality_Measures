@@ -13,6 +13,7 @@ from sklearn.isotonic import IsotonicRegression
 # data = high dimensional data
 # visu = low dimensional data
 # return the stress between the order of distances in data and the distances in visu
+# The higher the score, the worst is the visualization.
 def compute(data, visu):
 	data_dist = scale(pdist(data))
 	visu_dist = scale(pdist(visu))

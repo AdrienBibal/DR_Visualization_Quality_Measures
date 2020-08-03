@@ -9,7 +9,8 @@ from scipy.spatial.distance import pdist
 # Compute the correlation coef between the distance vector of each visu
 # data = high dimensional data
 # visu = low dimensional data
-# return the coorelation between the pairwise distances in data and visu
+# return the correlation between the pairwise distances in data and visu
+# The higher the score, the best is the visualization.
 def compute(data, visu):
 	# DV = Distance Vector
 	DV1 = pdist(data, 'euclidean')

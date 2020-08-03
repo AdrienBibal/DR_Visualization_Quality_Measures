@@ -30,6 +30,7 @@ def ABTN_AWTN(visu, labels):
 					
 
 # Computed on the sum of all points, therefore depends on the number of instances.
+# The higher the score, the best is the visualization.
 def compute(visu, labels):
 	ABTN, AWTN = ABTN_AWTN(visu, labels)
 	return ABTN / AWTN

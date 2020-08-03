@@ -50,7 +50,8 @@ def Ak(visu, labels, d_g, d_k):
 
 	return acc / (n - k)
 
-# Compute CAL, also called VRS in Calinski's paper
+# Compute CAL, also called VRS in Calinski's paper and the Caliński-Harabasz index in the literature.
+# The higher the score, the worst is the visualization.
 def compute(visu, labels):
 	n = float(len(visu))
 	k = float(len(np.unique(labels)))

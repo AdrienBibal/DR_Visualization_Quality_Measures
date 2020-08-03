@@ -7,6 +7,7 @@ import numpy as np
 
 from sklearn.neighbors import KNeighborsClassifier as KNN
 
+# The higher the score, the best is the visualization.
 def compute(visu, labels):
 	K_scores = []
 	for K in range(1, 10): # 10 = number of points (40) / number of classes (4). 10 - 1 because there is one less point in the dataset (the one we want to evaluate)

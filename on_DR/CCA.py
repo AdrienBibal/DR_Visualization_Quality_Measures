@@ -17,6 +17,7 @@ def sigmoid(x):
 # data = high dimensional data
 # visu = low dimensional data
 # return the CCA stress between data and visu
+# The higher the score, the worst is the visualization.
 def compute(data, visu):
 	# DV = Distance Vector
 	DV1 = scale(pdist(data, 'euclidean'))

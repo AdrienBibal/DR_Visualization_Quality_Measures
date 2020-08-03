@@ -84,6 +84,7 @@ def r(distances, j, i, sigma):
 
 	return numerator / denominator
 	
+# The higher the score, the best is the visualization.
 def compute(data, visu, l=0.5):
 	data_distances = pairwise_distances(data, metric='euclidean')
 	data_distances = data_distances / (np.sum(data_distances) / 2) # Divided by two because we counted the distances twice (symetric matrix)

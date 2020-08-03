@@ -30,6 +30,7 @@ def nearhit_nearmiss(x, x_label, visu, labels):
 
 # Computed on the sum of all points, therefore depends on the number of instances.
 # In order to be comparable amongs different visualizations, the result is divided by the number of points.
+# The higher the score, the best is the visualization.
 def compute(visu, labels):
 	HM = 0.0
 	for index in range(len(visu)):

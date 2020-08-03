@@ -6,5 +6,6 @@ import numpy as np
 
 from sklearn.metrics import silhouette_score
 
+# The higher the score, the best is the visualization.
 def compute(visu, labels):
 	return silhouette_score(visu, labels)
