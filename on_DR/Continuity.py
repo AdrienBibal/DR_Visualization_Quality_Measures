@@ -7,20 +7,6 @@ import numpy as np
 
 from scipy.spatial.distance import pdist, squareform
 
-# This function computes the trustworthiness for a particular K, as in Venna et al.'s paper
-def compute_trustworthiness(dataset, visu, projection_K, dataset_K, I_dataset):
-	N   = len(visu)
-	K   = len(projection_K[0])
-
-	acc = 0
-	for i in range(0, N):
-		_, common_neighborhood, _ = np.intersect1d(projection_K[i, :], dataset_K[i, :], return_indices=True)
-		UK_i = np.delete(projection_K[i, :], common_neighborhood)
-
-		for j in UK_i:
-			acc += np.where(I_dataset[i, :] == j)[0][0] - K
-
-	return 1 - ((2/(N*K*((2*N)-(3*K)-1)))*acc)
 
 # This function computes the continuity for a particular K, as in Venna et al.'s paper
 def compute_continuity(dataset, visu, projection_K, dataset_K, I_projection):
@@ -69,7 +55,7 @@ def compute(dataset, visu):
 		dataset_K = I_dataset[:, :k]
 
 		# Trustworthiness and continuity are combined with a simple mean
-		numerator += (compute_trustworthiness(dataset, visu, projection_K, dataset_K, I_dataset)+compute_continuity(dataset, visu, projection_K, dataset_K, I_projection))/2
+		numerator += compute_continuity(dataset, visu, projection_K, dataset_K, I_projection)
 		denominator += (1.0 / k)
 
 	return numerator / denominator

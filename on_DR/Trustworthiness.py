@@ -22,21 +22,6 @@ def compute_trustworthiness(dataset, visu, projection_K, dataset_K, I_dataset):
 
 	return 1 - ((2/(N*K*((2*N)-(3*K)-1)))*acc)
 
-# This function computes the continuity for a particular K, as in Venna et al.'s paper
-def compute_continuity(dataset, visu, projection_K, dataset_K, I_projection):
-	N   = len(visu)
-	K   = len(projection_K[0])
-
-	acc = 0
-	for i in range(0, N-1):
-		_, common_neighborhood, _ = np.intersect1d(dataset_K[i, :], projection_K[i, :], return_indices=True)
-		VK_i = np.delete(dataset_K[i, :], common_neighborhood)
-
-		for j in VK_i:
-			acc += np.where(I_projection[i, :] == j)[0][0] - K
-
-	return 1 - ((2/(N*K*((2*N)-(3*K)-1)))*acc)
-
 # Compute T&C for all K in logarithmic scale, as performed by AUClogRNX,
 # see Lee, J. A., Peluffo-Ordonez, D. H., & Verleysen, M. (2015). 
 # Multi-scale similarities in stochastic neighbour embedding: Reducing dimensionality while preserving both local and global structure. Neurocomputing, 169, 246-261.
@@ -69,7 +54,7 @@ def compute(dataset, visu):
 		dataset_K = I_dataset[:, :k]
 
 		# Trustworthiness and continuity are combined with a simple mean
-		numerator += (compute_trustworthiness(dataset, visu, projection_K, dataset_K, I_dataset)+compute_continuity(dataset, visu, projection_K, dataset_K, I_projection))/2
+		numerator += compute_trustworthiness(dataset, visu, projection_K, dataset_K, I_dataset)
 		denominator += (1.0 / k)
 
 	return numerator / denominator
